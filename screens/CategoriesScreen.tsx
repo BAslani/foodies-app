@@ -3,12 +3,17 @@ import React from "react"
 import { CATEGORIES } from "../data/data"
 import CategoryGridTile from "../components/CategoryGridTile"
 
-const CategoriesScreen = () => {
+const CategoriesScreen = ({ navigation }: any) => {
+  const handlePressed = () => {
+    navigation.navigate("meal")
+  }
   return (
     <FlatList
       data={CATEGORIES}
       keyExtractor={(item) => item.id}
-      renderItem={(item) => <CategoryGridTile category={item} />}
+      renderItem={(item) => (
+        <CategoryGridTile category={item} onPress={handlePressed} />
+      )}
       numColumns={2}
     />
   )
