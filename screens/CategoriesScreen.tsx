@@ -4,8 +4,10 @@ import { CATEGORIES } from "../data/data"
 import CategoryGridTile from "../components/CategoryGridTile"
 
 const CategoriesScreen = ({ navigation }: any) => {
-  const handlePressed = () => {
-    navigation.navigate("meal")
+  const handlePressed = (id: string) => {
+    navigation.navigate("meal", {
+      categoryId: id,
+    })
   }
   return (
     <FlatList

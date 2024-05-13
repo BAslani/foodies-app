@@ -11,21 +11,21 @@ import Category from "../models/category"
 
 type Props = {
   category: ListRenderItemInfo<Category>
-  onPress: () => void
+  onPress: (id: string) => void
 }
 
 const CategoryGridTile = ({
-  category: {
-    item: { title, color },
-  },
   onPress,
+  category: {
+    item: { title, color, id },
+  },
 }: Props) => {
   return (
     <View style={[styles.gridItem, { backgroundColor: color }]}>
       <Pressable
         android_ripple={{ color: "#ddd" }}
         style={styles.button}
-        onPress={onPress}
+        onPress={() => onPress(id)}
       >
         <View style={styles.innerContainer}>
           <Text style={styles.title}>{title}</Text>
