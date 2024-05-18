@@ -7,8 +7,18 @@ import {
   View,
 } from "react-native"
 import React from "react"
+import { useNavigation } from "@react-navigation/native"
+import MealDetails from "./MealDetails"
+import { NavigationProp, ParamListBase } from "@react-navigation/native"
+
+type RootStackParamList = {
+  meal: { mealId: string } // Add other routes along with their expected params
+  // otherRoute: { otherParam: type };
+  // Add as many routes as you have in your app with their respective params
+}
 
 type Props = {
+  id: string
   title: string
   imageUrl: string
   duration: number
@@ -22,19 +32,26 @@ const MealItem = ({
   duration,
   complexity,
   affordability,
+  id,
 }: Props) => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>()
+  const handlePress = () => {
+    navigation.navigate("meal", {
+      mealId: id,
+    })
+  }
   return (
     <View style={styles.container}>
-      <Pressable android_ripple={{ color: "ddd" }}>
+      <Pressable onPress={handlePress} android_ripple={{ color: "ddd" }}>
         <View>
           <Image style={styles.image} source={{ uri: imageUrl }} />
           <Text style={styles.title}>{title}</Text>
         </View>
-        <View style={styles.details}>
-          <Text style={styles.item}>{duration}</Text>
-          <Text style={styles.item}>{complexity.toUpperCase()}</Text>
-          <Text style={styles.item}>{affordability.toUpperCase()}</Text>
-        </View>
+        <MealDetails
+          duration={duration}
+          complexity={complexity}
+          affordability={affordability}
+        />
       </Pressable>
     </View>
   )
@@ -64,15 +81,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     margin: 8,
-  },
-  details: {
-    flexDirection: "row",
-    gap: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 8,
-  },
-  item: {
-    fontSize: 12,
   },
 })

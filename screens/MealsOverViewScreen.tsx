@@ -17,6 +17,7 @@ const MealsOverViewScreen = ({ route, navigation }: any) => {
       title: catTitle,
     })
   }, [catId, navigation])
+
   const renderMealItem = (itemData: { item: Meal }) => {
     return <MealItem {...itemData.item} />
   }
