@@ -8,6 +8,7 @@ import MealDetailScreen from "./screens/MealDetailScreen"
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import FavouritesScreen from "./screens/FavouritesScreen"
 import Ionicons from "@expo/vector-icons/Ionicons"
+import FavouritesContextProvider from "./store/context/FavouritesContext"
 
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -58,27 +59,32 @@ export default function App() {
   return (
     <>
       <StatusBar style='light' />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: "#351401",
-            },
-            headerTintColor: "#fff",
-            contentStyle: {
-              backgroundColor: "#3f2f25",
-            },
-          }}
-        >
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name='categoriesDrawer'
-            component={DrawerNavigator}
-          />
-          <Stack.Screen name='mealsOverView' component={MealsOverViewScreen} />
-          <Stack.Screen name='meal' component={MealDetailScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <FavouritesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "#351401",
+              },
+              headerTintColor: "#fff",
+              contentStyle: {
+                backgroundColor: "#3f2f25",
+              },
+            }}
+          >
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name='categoriesDrawer'
+              component={DrawerNavigator}
+            />
+            <Stack.Screen
+              name='mealsOverView'
+              component={MealsOverViewScreen}
+            />
+            <Stack.Screen name='meal' component={MealDetailScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FavouritesContextProvider>
     </>
   )
 }

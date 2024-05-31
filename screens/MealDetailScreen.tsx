@@ -1,29 +1,51 @@
-import { Button, Image, ScrollView, StyleSheet, Text, View } from "react-native"
-import React, { useLayoutEffect } from "react"
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native"
+import React, { useContext, useLayoutEffect } from "react"
 import { MEALS } from "../data/data"
 import MealDetails from "../components/MealDetails"
 import Subtitle from "../components/Subtitle"
 import List from "../components/List"
-import IconButton from "../components/IconButton"
+import { FavoriteContext } from "../store/context/FavouritesContext"
+import Ionicans from "@expo/vector-icons/Ionicons"
 
 const MealDetailScreen = ({ route, navigation }: any) => {
-  const headerRightBtnHandler = () => console.log("tapped")
+  const { ids, addFavorite, removeFavorite } = useContext(FavoriteContext)
+
+  const mealId = route.params?.mealId
+
+  const isFavorite = ids.includes(mealId)
+  const headerRightBtnHandler = () => {
+    if (isFavorite) {
+      removeFavorite(mealId)
+    } else {
+      addFavorite(mealId)
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <IconButton
-            onPress={headerRightBtnHandler}
-            color='white'
-            icon='star'
-          />
+          <Pressable onPress={headerRightBtnHandler}>
+            <Ionicans
+              name={isFavorite ? "star" : "star-outline"}
+              size={24}
+              color='white'
+            />
+          </Pressable>
         )
       },
     })
-  })
-  const mealId = route.params?.mealId
+  }, [navigation, headerRightBtnHandler])
+
   const selectedMeal = MEALS.find((meal) => meal.id === mealId)
+
   return (
     <ScrollView style={styles.container}>
       <Image style={styles.image} source={{ uri: selectedMeal?.imageUrl }} />
